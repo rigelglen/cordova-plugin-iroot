@@ -81,12 +81,109 @@ enum {
     }
 }
 
+- (BOOL) fileExist(NSString* path)
+{
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    BOOL isDirectory = NO;
+    if([fileManager fileExistsAtPath:path isDirectory:&isDirectory]){
+        return YES;
+    }
+    return NO;
+}
+
+- (BOOL) directoryExist(NSString* path)
+{
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    BOOL isDirectory = YES;
+    if([fileManager fileExistsAtPath:path isDirectory:&isDirectory]){
+        return YES;
+    }
+    return NO;
+}
+
+- (BOOL) canOpen(NSString* path)
+{
+    FILE *file = fopen([path UTF8String], "r");
+    if(file==nil){
+        return [self fileExist: path] || [self directoryExist: path];
+    }
+    fclose(file);
+    return YES;
+}
 
 
 
 - (bool) jailbroken {
 
 #if !(TARGET_IPHONE_SIMULATOR)
+
+NSArray* checks = [[NSArray alloc]initWithObjects:@"/Application/Cydia.app",
+                       @"/Library/MobileSubstrate/MobileSubstrate.dylib",
+                       @"/bin/bash",
+                       @"/usr/sbin/sshd",
+                       @"/etc/apt",
+                       @"/usr/bin/ssh",
+                       @"/private/var/lib/apt",
+                       @"/private/var/lib/cydia",
+                       @"/private/var/tmp/cydia.log",
+                       @"/Applications/WinterBoard.app",
+                       @"/var/lib/cydia",
+                       @"/private/etc/dpkg/origins/debian",
+                       @"/bin.sh",
+                       @"/private/etc/apt",
+                       @"/etc/ssh/sshd_config",
+                       @"/private/etc/ssh/sshd_config",
+                       @"/Applications/SBSetttings.app",
+                       @"/private/var/mobileLibrary/SBSettingsThemes/",
+                       @"/private/var/stash",
+                       @"/usr/libexec/sftp-server",
+                       @"/usr/libexec/cydia/",
+                       @"/usr/sbin/frida-server",
+                       @"/usr/bin/cycript",
+                       @"/usr/local/bin/cycript",
+                       @"/usr/lib/libcycript.dylib",
+                       @"/System/Library/LaunchDaemons/com.saurik.Cydia.Startup.plist",
+                       @"/System/Library/LaunchDaemons/com.ikey.bbot.plist",
+                       @"/Applications/FakeCarrier.app",
+                       @"/Library/MobileSubstrate/DynamicLibraries/Veency.plist",
+                       @"/Library/MobileSubstrate/DynamicLibraries/LiveClock.plist",
+                       @"/usr/libexec/ssh-keysign",
+                       @"/usr/libexec/sftp-server",
+                       @"/Applications/blackra1n.app",
+                       @"/Applications/IntelliScreen.app",
+                       @"/Applications/Snoop-itConfig.app", 
+                       @"/Applications/blackra1n.app",
+                       @"/Applications/checkra1n.app",
+                        @"/Applications/FakeCarrier.app",
+                        @"/Applications/Icy.app",
+                        @"/Applications/IntelliScreen.app",
+                        @"/Applications/MxTube.app",
+                        @"/Applications/RockApp.app",
+                        @"/Applications/SBSettings.app",
+                        @"/Applications/WinterBoard.app"                       
+                       nil];
+
+   //Check installed app
+    for(NSString* check in checks)
+    {
+        if(canOpen(check))
+        {
+            return YES;
+        }
+    }
+
+
+   //Check process forking
+    int pid = fork();
+    if(!pid)
+    {
+        exit(1);
+    }
+    if(pid >= 0)
+    {
+        return YES;
+    }
+
 
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Applications/Cydia.app"])
     {
@@ -108,6 +205,10 @@ enum {
     {
         return YES;
     }
+    else if  ([[NSFileManager defaultManager] fileExistsAtPath:@"/etc/apt"])
+    {
+        return YES;
+    } 
 
     FILE *f = NULL ;
     if ((f = fopen("/bin/bash", "r")) ||

@@ -1,6 +1,7 @@
 {
-  "name": "cordova-plugin-iroot",
+  "name": "cordova-plugin-iroot-plus",
   "version": "2.0.2",
+  "private": false,
   "description": "Cordova Jailbreak/Root Detection Plugin for Apache Cordova",
   "types": "./types/index.d.ts",
   "cordova": {
@@ -34,14 +35,14 @@
       "version": ">=6.0.0"
     }
   ],
-  "author": "Wuglyak Bolgoink (info@cyberkatze.de)",
+  "author": "Rigel Rego",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/WuglyakBolgoink/cordova-plugin-iroot/issues"
+    "url": "https://github.com/rigelglen/cordova-plugin-iroot/issues"
   },
-  "homepage": "https://github.com/WuglyakBolgoink/cordova-plugin-iroot#readme",
+  "homepage": "https://github.com/rigelglen/cordova-plugin-iroot#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/WuglyakBolgoink/cordova-plugin-iroot.git"
+    "url": "git+https://github.com/rigelglen/cordova-plugin-iroot.git"
   }
 }
