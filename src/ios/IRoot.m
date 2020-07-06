@@ -81,7 +81,7 @@ enum {
     }
 }
 
-- (BOOL) fileExist(NSString* path)
+- (BOOL) fileExist: (NSString*) path
 {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     BOOL isDirectory = NO;
@@ -91,7 +91,7 @@ enum {
     return NO;
 }
 
-- (BOOL) directoryExist(NSString* path)
+- (BOOL) directoryExist: (NSString*) path
 {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     BOOL isDirectory = YES;
@@ -101,7 +101,7 @@ enum {
     return NO;
 }
 
-- (BOOL) canOpen(NSString* path)
+- (BOOL) canOpen: (NSString*) path
 {
     FILE *file = fopen([path UTF8String], "r");
     if(file==nil){
