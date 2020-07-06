@@ -160,13 +160,13 @@ NSArray* checks = [[NSArray alloc]initWithObjects:@"/Application/Cydia.app",
                         @"/Applications/MxTube.app",
                         @"/Applications/RockApp.app",
                         @"/Applications/SBSettings.app",
-                        @"/Applications/WinterBoard.app"                       
-                       nil];
+                   @"/Applications/WinterBoard.app", nil
+                       ];
 
    //Check installed app
     for(NSString* check in checks)
     {
-        if(canOpen(check))
+        if([self canOpen: check])
         {
             return YES;
         }
@@ -375,9 +375,7 @@ NSArray* checks = [[NSArray alloc]initWithObjects:@"/Application/Cydia.app",
         // Jailbroken
         return YES;
     }
-
 #endif
-
     return NO;
 }
 
